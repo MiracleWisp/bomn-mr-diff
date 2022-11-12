@@ -5,8 +5,9 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import { HeaderComponent } from './components/header/header.component';
+import {HeaderComponent} from './components/header/header.component';
 import {TuiInputModule} from "@taiga-ui/kit";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {TuiInputModule} from "@taiga-ui/kit";
     TuiRootModule,
     TuiInputModule,
     TuiButtonModule,
-    TuiPrimitiveTextfieldModule
+    TuiPrimitiveTextfieldModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

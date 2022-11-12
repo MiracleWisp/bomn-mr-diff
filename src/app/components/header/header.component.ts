@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UrlParseService} from "../../service/url-parse.service";
+import {BpmnDiffService} from "../../service/bpmn-diff.service";
 
 @Component({
   selector: 'mrd-header',
@@ -8,13 +8,15 @@ import {UrlParseService} from "../../service/url-parse.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private urlParseService: UrlParseService) {
+  constructor(private bpmnDiffService: BpmnDiffService) {
   }
 
   ngOnInit(): void {
   }
 
   onClick(value: string) {
-    this.urlParseService.parseMrUrl(value)
+    this.bpmnDiffService.getBpmnDiffs(value).subscribe(response => {
+      console.log(response);
+    })
   }
 }
