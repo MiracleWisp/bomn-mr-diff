@@ -1,0 +1,20 @@
+<div class="mrd-header d-flex">
+  <tui-primitive-textfield
+      class="flex-grow-1"
+      [value]="'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/103840/diffs'"
+  >
+    Paste link to gitlab mr
+    <input
+        #urlInput
+        tuiTextfield
+        type="url"
+    />
+  </tui-primitive-textfield>
+  <button
+      tuiButton
+      type="button"
+      (click)="onClick(urlInput.host.value)"
+  >
+    Show diff
+  </button>
+</div>
