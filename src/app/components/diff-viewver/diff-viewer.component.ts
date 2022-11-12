@@ -34,6 +34,7 @@ export class DiffViewerComponent implements AfterContentInit, OnChanges, OnDestr
   ngOnInit(): void {
     this.leftViewer = this.initViewer()
     this.rightViewer = this.initViewer()
+    this.syncViewers(this.leftViewer, this.rightViewer)
   }
 
   ngAfterContentInit(): void {
@@ -59,5 +60,28 @@ export class DiffViewerComponent implements AfterContentInit, OnChanges, OnDestr
         deferUpdate: false
       }
     });
+  }
+
+  private syncViewers(a, b) {
+    let changing;
+
+    function update(viewer) {
+      return function (e) {
+        if (changing) {
+          return;
+        }
+
+        changing = true;
+        viewer.get("canvas").viewbox(e.viewbox);
+        changing = false;
+      };
+    }
+
+    function syncViewbox(a, b) {
+      a.on("canvas.viewbox.changed", update(b));
+    }
+
+    syncViewbox(a, b);
+    syncViewbox(b, a);
   }
 }
