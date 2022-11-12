@@ -15,8 +15,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onClick(value: string) {
-    this.bpmnDiffService.getBpmnDiffs(value).subscribe(response => {
-      console.log(response);
-    })
+    this.bpmnDiffService.updateBpmnDiffs(value)
   }
 }

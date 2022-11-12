@@ -2,6 +2,7 @@ import {
   AfterContentInit,
   Component,
   ElementRef,
+  Input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -9,6 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import BpmnViewer from "bpmn-js/lib/NavigatedViewer";
+import {BpmnDiff} from "../../model/bpmn-diff.model";
 
 @Component({
   selector: 'mrd-diff-viewer',
@@ -17,12 +19,13 @@ import BpmnViewer from "bpmn-js/lib/NavigatedViewer";
 })
 export class DiffViewerComponent implements AfterContentInit, OnChanges, OnDestroy, OnInit {
 
+  @Input()
+  bpmnDiff: BpmnDiff
+
   private leftViewer: BpmnViewer;
   private rightViewer: BpmnViewer;
 
-  // @ts-ignore
   @ViewChild('left', {static: true}) private leftEl: ElementRef;
-  // @ts-ignore
   @ViewChild('right', {static: true}) private rightEl: ElementRef;
 
   constructor() {
@@ -34,13 +37,13 @@ export class DiffViewerComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   ngAfterContentInit(): void {
-    // attach BpmnJS instance to DOM element
     this.leftViewer.attachTo(this.leftEl.nativeElement);
     this.rightViewer.attachTo(this.rightEl.nativeElement);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
+    this.leftViewer.importXML(this.bpmnDiff.oldXml)
+    this.rightViewer.importXML(this.bpmnDiff.newXml)
   }
 
   ngOnDestroy(): void {

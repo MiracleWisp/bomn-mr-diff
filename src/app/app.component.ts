@@ -1,4 +1,7 @@
 import {Component} from '@angular/core';
+import {BpmnDiffService} from "./service/bpmn-diff.service";
+import {BpmnDiff} from "./model/bpmn-diff.model";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'mrd-root',
@@ -6,5 +9,17 @@ import {Component} from '@angular/core';
   styleUrls: ['app.component.less']
 })
 export class AppComponent {
-  title = 'bpmn-mr-diff';
+
+  diffs$ = this.bpmnDiffService.diffs$.pipe(
+
+  )
+  currentDiff: BpmnDiff;
+
+  constructor(private bpmnDiffService: BpmnDiffService) {
+
+  }
+
+  fileChange(diff: BpmnDiff) {
+    this.currentDiff = diff
+  }
 }

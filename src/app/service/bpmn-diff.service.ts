@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {MergeRequestInfo} from "../model/merge-request-info.model";
-import {environment} from '../../environments/environment';
 import {UrlParseService} from "./url-parse.service";
 import {GitlabService} from "./gitlab.service";
-import {forkJoin, map, mergeMap, Observable} from "rxjs";
+import {forkJoin, map, mergeMap, ReplaySubject} from "rxjs";
 import {BpmnDiff} from "../model/bpmn-diff.model";
 
 @Injectable({
@@ -11,16 +9,12 @@ import {BpmnDiff} from "../model/bpmn-diff.model";
 })
 export class BpmnDiffService {
 
-  private getChangesUrl = `${environment.gitlabUrl}/api/v4/projects/278964/merge_requests/16/changes`
+  public diffs$: ReplaySubject<BpmnDiff[]> = new ReplaySubject<BpmnDiff[]>()
 
   constructor(private urlParseService: UrlParseService, private gitlabService: GitlabService) {
   }
 
-  public getDiff(mergeRequestInfo: MergeRequestInfo): any {
-
-  }
-
-  public getBpmnDiffs(url: string): Observable<BpmnDiff[]> {
+  public updateBpmnDiffs(url: string) {
     const mergeRequestInfo = this.urlParseService.parseMrUrl(url)
     return this.gitlabService.getMrChanges(mergeRequestInfo).pipe(
         mergeMap(changes => {
@@ -51,6 +45,8 @@ export class BpmnDiffService {
           }
           return diffs
         })
+    ).subscribe(res =>
+        this.diffs$.next(res)
     )
   }
 }
