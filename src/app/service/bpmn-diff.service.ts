@@ -3,6 +3,7 @@ import {UrlParseService} from "./url-parse.service";
 import {GitlabService} from "./gitlab.service";
 import {forkJoin, map, mergeMap, ReplaySubject} from "rxjs";
 import {BpmnDiff} from "../model/bpmn-diff.model";
+import { decode } from 'js-base64';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,8 @@ export class BpmnDiffService {
           for (let i = 0; i < files.length; i += 2) {
             diffs.push({
               name: files[i].file_name,
-              oldXml: atob(files[i].content),
-              newXml: atob(files[i + 1].content)
+              oldXml: decode(files[i].content),
+              newXml: decode(files[i + 1].content)
             })
           }
           return diffs
