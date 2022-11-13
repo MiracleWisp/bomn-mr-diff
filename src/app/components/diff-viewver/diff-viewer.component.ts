@@ -68,7 +68,7 @@ export class DiffViewerComponent implements AfterContentInit, OnChanges, OnDestr
     })
 
     Object.entries(changes._removed).forEach(([key, value]) => {
-      this.highlight(this.rightViewer, key, "diff-removed");
+      this.highlight(this.leftViewer, key, "diff-removed");
     })
 
     Object.entries(changes._layoutChanged).forEach(([key, value]) => {
